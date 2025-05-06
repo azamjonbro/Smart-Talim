@@ -2,25 +2,25 @@ require('dotenv').config(); // .env faylni o'qish
 const app = require('./src/app'); // app.js dan Express ilovani import qilish
 const { connectDB } = require('./src/config/database'); // MongoDB ulanishi uchun
 const SuperAdmin = require('./src/modules/superadmin/superadmin.model'); // SuperAdmin modelini import qilish
-
+const bcrypt = require('bcrypt'); 
 const PORT = process.env.PORT || 5000;
 
-// Default SuperAdmin yaratish funksiyasi
 const createDefaultSuperAdmin = async () => {
     try {
-        // Agar bazada superadmin mavjud bo'lsa, uni yaratmaymiz
         const existingSuperAdmin = await SuperAdmin.findOne({ role: 'superadmin' });
         if (existingSuperAdmin) {
             console.log('SuperAdmin already exists');
             return;
         }
+        const plainPassword = 'P@ssw0rd';
+        const hashedPassword = await bcrypt.hash(plainPassword, 10); 
 
-        // SuperAdmin yaratish
+
         const superAdmin = new SuperAdmin({
             username: 'SuperAdmin',
             name: 'Azamjonbro',
             email: 'azamjonbro@gmail.com',
-            password: 'P@ssw0rd', 
+            password: hashedPassword, 
             role: 'superadmin',
         });
         await superAdmin.save();

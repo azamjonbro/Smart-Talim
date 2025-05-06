@@ -69,8 +69,11 @@ const createSuperAdmin = async (req, res) => {
 
 const loginSuperAdmin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { username, password } = req.body;
+        console.log('Login attempt with username:', username);
         const superAdmin = await SupperAdmin.findOne({ username });
+        console.log(superAdmin);
+        
         if (!superAdmin) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
