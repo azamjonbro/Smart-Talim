@@ -1,0 +1,30 @@
+{
+  "name": "Smart-Ta'lim",
+  "version": "1.0.0",
+  "description": "Bu crm dasturida o'quv markazlarining ma'lumotlari saqlanadi va boshqariladi. O'quv markazlari o'zlarining kurslarini, o'quvchilarini va o'qituvchilarini boshqarishlari mumkin.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Azamjon Abdullayev",
+  "contributors": [
+    {
+      "name": "Azamjon Abdullayev",
+      "email": "azamjonbro@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.1",
+    "nodemon": "^3.1.10"
+  }
+}
