@@ -21,7 +21,15 @@ const superAdminSettingsSchema = new mongoose.Schema({
         type: String,
         default:false,
     },
-    
+    changedPassword: {
+        type: String,
+        default:false,
+    },
+    changedPasswordTime: {  
+        type: String,
+        default: new Date().toLocaleTimeString(),
+    },
+
 }, { timestamps: true });
 const SuperAdminSettings = mongoose.model('SuperAdminSettings', superAdminSettingsSchema);
 module.exports = SuperAdminSettings;
