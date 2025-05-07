@@ -4,7 +4,7 @@ const {
     createSuperAdmin,
     loginSuperAdmin,
     updateSuperAdmin,
-} = require('../modules/superadmin/superadmin.controller');  
+} = require('../modules/superadmin/Login/superadmin.controller');  
 const authenticate = require('../middlewares/authMiddleware'); // JWT tekshiruv
 
 

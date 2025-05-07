@@ -1,7 +1,7 @@
 require('dotenv').config(); // .env faylni o'qish
 const app = require('./src/app'); // app.js dan Express ilovani import qilish
 const { connectDB } = require('./src/config/database'); // MongoDB ulanishi uchun
-const SuperAdmin = require('./src/modules/superadmin/superadmin.model'); // SuperAdmin modelini import qilish
+const SuperAdmin = require('./src/modules/superadmin/Login/superadmin.model'); // SuperAdmin modelini import qilish
 const bcrypt = require('bcrypt'); 
 const PORT = process.env.PORT || 5000;
 
