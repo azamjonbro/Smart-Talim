@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const superAdminSchema = new mongoose.Schema({
+const ManagerCreate = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -19,19 +19,18 @@ const superAdminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    createdBy:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'SuperAdmin',
-        required: true,
-    },
     role: {
         type: String,
         required: true,
         default: 'manager',
     },
-    statue  : {
+    status: {
         type: String,
         enum: ['active', 'inactive'],
         default: 'active',
     },
 }, { timestamps: true });
+
+const MangerCreate = mongoose.model('Managers', ManagerCreate);
+
+module.exports = MangerCreate;

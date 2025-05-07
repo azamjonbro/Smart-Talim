@@ -22,11 +22,11 @@ router.get('/settings', authenticate, getSuperAdminSettings);
 
 
 // bu yerda superadmin manager yaratish uchun kerakli kodlar
-const { createManager, getAllManagers, getManagerById } = require('../modules/superadmin/ManagerCreate/ManagerCreate.controller'); // Import the createManager 
+const { createManager, getAllManagers, getManagerById, deleteManager } = require('../modules/superadmin/ManagerCreate/ManagerCreate.controller'); // Import the createManager 
 router.post('/managers', authenticate, createManager);
 router.get('/managers/:id', authenticate, getManagerById);
-
 router.get('/managers', authenticate, getAllManagers);
+router.delete('/managers/:id', authenticate, deleteManager);
 
 
 module.exports = router;

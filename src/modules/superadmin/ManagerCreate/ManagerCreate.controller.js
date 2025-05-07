@@ -1,109 +1,89 @@
 const ManagerCreateModel = require('./ManagerCreate.model');
-
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const SuperAdminSettings = require('../settings/superadmin.settings.model');
 
 
-// Create a new manager
 const createManager = async (req, res) => {
     try {
         const { username, name, email, password } = req.body;
-
-        // Check if the manager already exists
-        const existingManager = await ManagerCreateModel.findOne({ email });
+        const superAdminId = req.user._id;
+        const existingManager = await ManagerCreateModel.findOne({ username });
         if (existingManager) {
-            return res.status(400).json({ message: 'Manager already exists' });
+            return res.status(400).json({ message: 'Username already exists' });
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create a new manager
+        
         const newManager = new ManagerCreateModel({
             username,
             name,
             email,
             password: hashedPassword,
+            createdBy: superAdminId
         });
 
-        // Save the manager to the database
         await newManager.save();
-
         res.status(201).json({ message: 'Manager created successfully', data: newManager });
     } catch (error) {
         res.status(500).json({ message: 'Error creating manager', error });
     }
 };
-// Get all managers
+
 const getAllManagers = async (req, res) => {
     try {
-        const managers = await ManagerCreateModel.find();
+        const managers = await ManagerCreateModel.find().populate('createdBy', 'username email');
         res.status(200).json({ message: 'Managers retrieved successfully', data: managers });
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving managers', error });
     }
 };
-// Get a manager by ID
+
 const getManagerById = async (req, res) => {
     try {
-        const managerId = req.params.id;
-        const manager = await ManagerCreateModel.findById(managerId);
-        if (!manager) {
-            return res.status(404).json({ message: 'Manager not found' });
-        }
+        const manager = await ManagerCreateModel.findById(req.params.id).populate('createdBy', 'username email');
+        if (!manager) return res.status(404).json({ message: 'Manager not found' });
         res.status(200).json({ message: 'Manager retrieved successfully', data: manager });
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving manager', error });
     }
 };
 
-// Update a manager
 const updateManager = async (req, res) => {
     try {
-        const managerId = req.params.id;
-        const { username, name, email, password } = req.body;
+        const manager = await ManagerCreateModel.findById(req.params.id);
+        if (!manager) return res.status(404).json({ message: 'Manager not found' });
 
-        // Find the manager by ID
-        const manager = await ManagerCreateModel.findById(managerId);
-        if (!manager) {
-            return res.status(404).json({ message: 'Manager not found' });
+        const { username, name, email, password, status } = req.body;
+
+        if (username && username !== manager.username) {
+            const exists = await ManagerCreateModel.findOne({ username });
+            if (exists) return res.status(400).json({ message: 'Username already exists' });
         }
 
-        // Update the manager's details
         if (username) manager.username = username;
         if (name) manager.name = name;
         if (email) manager.email = email;
-        if (password) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            manager.password = hashedPassword;
-        }
+        if (password) manager.password = await bcrypt.hash(password, 10);
+        if (status) manager.status = status;
 
-        // Save the updated manager to the database
         await manager.save();
-
         res.status(200).json({ message: 'Manager updated successfully', data: manager });
     } catch (error) {
         res.status(500).json({ message: 'Error updating manager', error });
     }
 };
 
-// Delete a manager
 const deleteManager = async (req, res) => {
     try {
-        const managerId = req.params.id;
+        const manager = await ManagerCreateModel.findById(req.params.id);
+        if (!manager) return res.status(404).json({ message: 'Manager not found' });
 
-        // Find the manager by ID
-        const manager = await ManagerCreateModel.findById(managerId);
-        if (!manager) {
-            return res.status(404).json({ message: 'Manager not found' });
-        }
         manager.status = 'inactive';
         await manager.save();
 
-        res.status(200).json({ message: 'Manager deleted successfully' });
+        res.status(200).json({ message: 'Manager deactivated successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting manager', error });
+        res.status(500).json({ message: 'Error deactivating manager', error });
     }
 };
 
@@ -112,5 +92,5 @@ module.exports = {
     getAllManagers,
     getManagerById,
     updateManager,
-    deleteManager,
+    deleteManager
 };
