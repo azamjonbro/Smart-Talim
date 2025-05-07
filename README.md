@@ -22,7 +22,7 @@ Smart CRM bu yengil, xavfsiz va kengaytiriladigan backend tizimi bo‘lib, bizne
 
 1. Repositoriyani klon qiling:
 ----------------------------------
-git clone https://github.com/azamjonbro/smart-crm-backend.git
+git clone https://github.com/azamjonbro/smart-Talim.git
 cd smart-crm-backend
 
 2. Bog‘liqliklarni o‘rnating:
