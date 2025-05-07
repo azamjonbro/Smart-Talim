@@ -87,10 +87,42 @@ const deleteManager = async (req, res) => {
     }
 };
 
+// endi bu yerda managerni login qilish uchun function yozamiz
+
+const loginManager = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const manager = await ManagerCreateModel.findOne({ username });
+        
+        if (!manager) {
+            return res.status(404).json({ message: 'Manager not found' });
+        }
+        
+        const isMatch = await bcrypt.compare(password, manager.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid password' });
+        }
+
+        if (typeof manager.generateAuthToken !== 'function') {
+            return res.status(500).json({ message: 'Auth token generation method is missing.' });
+        }
+
+        const token = manager.generateAuthToken();
+        
+        res.status(200).json({ message: 'Login successful', token });
+    }
+    catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ message: 'Error logging in', error: error.message });
+    }
+};
+
+
 module.exports = {
     createManager,
     getAllManagers,
     getManagerById,
     updateManager,
-    deleteManager
+    deleteManager,
+    loginManager
 };

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
-const ManagerCreate = new mongoose.Schema({
+const ManagerCreateSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -30,7 +31,17 @@ const ManagerCreate = new mongoose.Schema({
         default: 'active',
     },
 }, { timestamps: true });
+ManagerCreateSchema.methods.generateAuthToken = function() {
+    const payload = {
+        _id: this._id,
+        username: this.username,
+        email: this.email,
+        role: this.role,
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return token;
+};
 
-const MangerCreate = mongoose.model('Managers', ManagerCreate);
+const ManagerCreateModel = mongoose.model('Managers', ManagerCreateSchema);
 
-module.exports = MangerCreate;
+module.exports = ManagerCreateModel;
