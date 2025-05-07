@@ -3,7 +3,9 @@
 Smart CRM bu yengil, xavfsiz va kengaytiriladigan backend tizimi bo‘lib, biznesingizdagi foydalanuvchilar, rollar va boshqaruvni markazlashtirilgan holda boshqarish imkonini beradi.
 
 ===================================================================
+
 📦 TEXNOLOGIYALAR
+
 ===================================================================
 
 - Node.js (v18+)
@@ -20,7 +22,7 @@ Smart CRM bu yengil, xavfsiz va kengaytiriladigan backend tizimi bo‘lib, bizne
 
 1. Repositoriyani klon qiling:
 ----------------------------------
-git clone https://github.com/username/smart-crm-backend.git
+git clone https://github.com/azamjonbro/smart-crm-backend.git
 cd smart-crm-backend
 
 2. Bog‘liqliklarni o‘rnating:
