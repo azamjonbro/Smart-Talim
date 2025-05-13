@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
-const  MONGO_URI  = process.env.MONGO_URI || 'mongodb://localhost:27017/mydatabase';
+const  MONGO_URI  = 'mongodb://AbsofuckinlitlysomeoneUserfuck:suckmydickjustonefuckingtest@109.73.196.37:27017/change?authSource=admin&directConnection=true';
 const connectDB = async () => {
     try {
         await mongoose.connect(MONGO_URI, {
